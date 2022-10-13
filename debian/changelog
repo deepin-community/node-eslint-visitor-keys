@@ -1,0 +1,54 @@
+node-eslint-visitor-keys (2.0.0+~0.0.45-1) unstable; urgency=medium
+
+  * stop depend on nodejs;
+    fix have autopkgtest depend on nodejs
+  * update git-buildpackage settings: use DEP-14 git branch names
+  * embed and install Node.js module @types/estree;
+    provide virtual package node-types-estree;
+    build-depend on jq;
+    break older node-typescript-types
+    (previously providing same module)
+
+ -- Jonas Smedegaard <dr@jones.dk>  Sat, 02 Jan 2021 04:47:30 +0100
+
+node-eslint-visitor-keys (2.0.0-1) unstable; urgency=medium
+
+  [ upstream ]
+  * new release(s)
+
+  [ Debian Janitor ]
+  * set upstream metadata fields:
+    Bug-Database Bug-Submit Repository Repository-Browse
+  * set Multi-Arch: foreign
+
+  [ Jonas Smedegaard ]
+  * modernize source script copyright-check
+  * copyright: update coverage
+  * lint-check code during build;
+    build-depend on
+    eslint node-eslint-config-eslint node-eslint-plugin-node
+  * use debhelper compatibility level 13 (not 12)
+  * declare compliance with Debian Policy 4.5.1
+
+ -- Jonas Smedegaard <dr@jones.dk>  Mon, 14 Dec 2020 00:47:55 +0100
+
+node-eslint-visitor-keys (1.1.0-3) unstable; urgency=medium
+
+  * use debhelper compatibility level 12 (not 10);
+    build-depend on debhelper-compat (not debhelper)
+  * declare compliance with Debian Policy 4.5.0
+
+ -- Jonas Smedegaard <dr@jones.dk>  Fri, 27 Mar 2020 16:56:12 +0100
+
+node-eslint-visitor-keys (1.1.0-2) unstable; urgency=medium
+
+  * fix clean generated docs
+
+ -- Jonas Smedegaard <dr@jones.dk>  Sat, 30 Nov 2019 11:09:51 +0100
+
+node-eslint-visitor-keys (1.1.0-1) experimental; urgency=low
+
+  * Initial release.
+    Closes: Bug#943414.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Thu, 24 Oct 2019 18:21:22 +0200

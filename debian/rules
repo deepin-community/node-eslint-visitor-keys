@@ -1,0 +1,48 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/pkg-info.mk
+
+# generate documentation unless nodoc requested
+ifeq (,$(filter nodoc,$(DEB_BUILD_OPTIONS)))
+DOCS = README.html README.txt
+CHANGELOGS = CHANGELOG.html CHANGELOG.txt
+endif
+
+ESLINT = eslint
+MOCHA = mocha --no-timeout
+# normalize output with TAP where possible unless terse requested
+ifeq (,$(filter terse,$(DEB_BUILD_OPTIONS)))
+ESLINT += --format tap
+MOCHA += --reporter tap
+else
+ESLINT += --format unix
+MOCHA += --reporter dot --no-colors
+endif
+
+%:
+	dh $@
+
+%.html: %.md
+	pandoc --from gfm-raw_html --to html --standalone --output $@ $<
+
+%.txt: %.md
+	pandoc --from gfm-raw_html --to plain --output $@ $<
+
+override_dh_clean:
+	dh_clean -- $(DOCS) $(CHANGELOGS)
+
+override_dh_auto_build: $(DOCS) $(CHANGELOGS)
+
+# TODO: lint-check code strictly
+override_dh_auto_test:
+	$(MOCHA) 'tests/**/*.js'
+	$(ESLINT) lib tests/lib || true
+
+override_dh_installdocs:
+	dh_installdocs --all -- $(DOCS)
+
+override_dh_installchangelogs:
+	dh_installchangelogs -- $(CHANGELOGS)
+
+override_dh_gencontrol:
+	dh_gencontrol -- -V"types:Version=$(shell jq --raw-output .version < Xtypes/package.json)~$(DEB_VERSION)"

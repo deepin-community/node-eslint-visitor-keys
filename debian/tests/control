@@ -1,0 +1,13 @@
+Test-Command: node -e "require('eslint-visitor-keys');"
+Depends:
+ node-eslint-visitor-keys,
+ nodejs,
+Restrictions: superficial
+
+Test-Command:
+ sed -i -e 's,"../..","eslint-visitor-keys",' tests/lib/index.js
+ && mocha --reporter tap tests/lib/index.js
+Depends:
+ mocha,
+ node-chai,
+ node-eslint-visitor-keys,
