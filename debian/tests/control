@@ -1,12 +1,17 @@
-Test-Command: node -e "require('eslint-visitor-keys');"
+Test-Command:
+ cd $AUTOPKGTEST_TMP
+ && node -e "require('eslint-visitor-keys');"
 Depends:
  node-eslint-visitor-keys,
  nodejs,
 Restrictions: superficial
 
 Test-Command:
- sed -i -e 's,"../..","eslint-visitor-keys",' tests/lib/index.js
- && mocha --reporter tap tests/lib/index.js
+ sed -i
+ -e 's,"../../lib/index.js","eslint-visitor-keys",'
+ -e 's,import keys from "../../lib/visitor-keys.js",const keys = evk.KEYS,'
+ tests/lib/index.js
+ && mocha --reporter tap 'tests/lib/**/*.js'
 Depends:
  mocha,
  node-chai,

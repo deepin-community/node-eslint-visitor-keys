@@ -1,1 +1,2 @@
-  * lint-check code strictly
+  * simplify lint check when newer eslint is in Debian
+  * check more tests when needed Node.js module tsd is in Debian

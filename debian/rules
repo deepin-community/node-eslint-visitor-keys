@@ -1,5 +1,6 @@
 #!/usr/bin/make -f
 
+# resolve DEB_VERSION
 include /usr/share/dpkg/pkg-info.mk
 
 # generate documentation unless nodoc requested
@@ -19,24 +20,21 @@ ESLINT += --format unix
 MOCHA += --reporter dot --no-colors
 endif
 
-%:
-	dh $@
-
-%.html: %.md
-	pandoc --from gfm-raw_html --to html --standalone --output $@ $<
-
-%.txt: %.md
-	pandoc --from gfm-raw_html --to plain --output $@ $<
-
 override_dh_clean:
 	dh_clean -- $(DOCS) $(CHANGELOGS)
 
-override_dh_auto_build: $(DOCS) $(CHANGELOGS)
+override_dh_auto_build:
+	rollup -c
+	tsc
 
-# TODO: lint-check code strictly
+execute_after_dh_auto_build: $(DOCS) $(CHANGELOGS)
+
+# * simplify lint check when newer eslint is in Debian
+# * check typescript when tsd is in Debian
 override_dh_auto_test:
-	$(MOCHA) 'tests/**/*.js'
-	$(ESLINT) lib tests/lib || true
+	$(MOCHA) 'tests/lib/**/*.cjs' 'tests/lib/**/*.js'
+	$(ESLINT) --no-eslintrc --env es2020 --parser-options sourceType:module --ignore-pattern /dist .
+#	tsd
 
 override_dh_installdocs:
 	dh_installdocs --all -- $(DOCS)
@@ -44,5 +42,17 @@ override_dh_installdocs:
 override_dh_installchangelogs:
 	dh_installchangelogs -- $(CHANGELOGS)
 
+execute_after_dh_fixperms:
+	find debian/*/usr/share/nodejs/@types -type f -exec chmod -x '{}' +
+
 override_dh_gencontrol:
 	dh_gencontrol -- -V"types:Version=$(shell jq --raw-output .version < Xtypes/package.json)~$(DEB_VERSION)"
+
+%.html: %.md
+	cmark-gfm $< > $@
+
+%.txt: %.md
+	cmark-gfm --to plaintext $< > $@
+
+%:
+	dh $@

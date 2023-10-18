@@ -1,3 +1,42 @@
+node-eslint-visitor-keys (3.3.0+~1.0.0-1) unstable; urgency=medium
+
+  [ upstream ]
+  * new release of embedded @types/estree
+
+  [ Jonas Smedegaard ]
+  * declare compliance with Debian Policy 4.6.1
+
+ -- Jonas Smedegaard <dr@jones.dk>  Thu, 29 Sep 2022 16:31:51 +0200
+
+node-eslint-visitor-keys (3.3.0+~0.0.51-2) unstable; urgency=medium
+
+  * fix run require autopkgtest in $AUTOPKGTEST_TMP;
+    thanks to Nilesh Patra
+
+ -- Jonas Smedegaard <dr@jones.dk>  Mon, 28 Feb 2022 21:58:32 +0100
+
+node-eslint-visitor-keys (3.3.0+~0.0.51-1) unstable; urgency=medium
+
+  [ upstream ]
+  * new release(s)
+
+  [ Jonas Smedegaard ]
+  * simplify source helper script copyright-check
+  * update copyright info:
+    + use Reference field (not License-Reference);
+      tighten lintian overrides
+    + update coverage
+  * generate documentation with cmark-gfm (not pandoc);
+    build-depend on cmark-gfm (not pandoc)
+  * declare compliance with Debian Policy 4.6.0
+  * update git-buildpackage config: add usage comment
+  * update build routines;
+    build-depend on node-typescript rollup
+  * update and improve checking test
+  * fix unset executable bit for TypeScript files
+
+ -- Jonas Smedegaard <dr@jones.dk>  Thu, 24 Feb 2022 12:05:06 +0100
+
 node-eslint-visitor-keys (2.0.0+~0.0.45-1) unstable; urgency=medium
 
   * stop depend on nodejs;
